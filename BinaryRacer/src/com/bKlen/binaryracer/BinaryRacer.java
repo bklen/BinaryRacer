@@ -1,5 +1,7 @@
 package com.bKlen.binaryracer;
 
+import java.io.IOException;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -44,13 +46,13 @@ public class BinaryRacer extends Activity
 		Button loginButton = (Button) findViewById(R.id.loginButton);
 		
 		//Listening to button event
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener()
+        {
  
             public void onClick(View arg0)
             {
                 //Starting a new Intent
-                //Intent lapCounter = new Intent(getApplicationContext(), LapCounter.class);
-            	Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
+            	//Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
  
                 //Sending data to another Activity
                 //nextScreen.putExtra("name", inputName.getText().toString());
@@ -58,9 +60,15 @@ public class BinaryRacer extends Activity
  
                 //Log.e("n", inputName.getText()+"."+ inputEmail.getText());
  
-                //startActivity(lapCounter);
-            	Globals.USER_NAME = nameET.getText().toString();
-            	startActivity(driverMeeting);
+            	//Globals.USER_NAME = nameET.getText().toString();
+            	//startActivity(driverMeeting);
+            	
+            	try {
+					((RacerApplication)BinaryRacer.this.getApplication()).sendData(nameET.getText().toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
  
             }
         });
