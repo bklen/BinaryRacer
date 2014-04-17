@@ -21,7 +21,7 @@ public class DriverMeeting extends Activity {
         	 
             public void onClick(View arg0)
             {
-                //Starting a new Intent
+                //Starting a new Intentt
                 //Intent lapCounter = new Intent(getApplicationContext(), LapCounter.class);
             	Intent lapCounter = new Intent(getApplicationContext(), LapCounter.class);
  
