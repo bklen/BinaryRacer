@@ -35,6 +35,8 @@ public class RacerApplication extends Application
     int counter;
     volatile boolean stopWorker;
 
+    //test comment
+    
 	@Override
     public void onCreate() 
     {
