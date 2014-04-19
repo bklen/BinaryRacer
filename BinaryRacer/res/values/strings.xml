@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Binary Racer</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_restart">Restart</string>
     <string name="hello_world">Hello world!</string>
     <color name="black">#000001</color>
     

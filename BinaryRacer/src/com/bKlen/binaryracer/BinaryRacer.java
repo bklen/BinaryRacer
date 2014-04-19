@@ -52,7 +52,7 @@ public class BinaryRacer extends Activity
             public void onClick(View arg0)
             {
                 //Starting a new Intent
-            	//Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
+            	Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
  
                 //Sending data to another Activity
                 //nextScreen.putExtra("name", inputName.getText().toString());
@@ -61,14 +61,17 @@ public class BinaryRacer extends Activity
                 //Log.e("n", inputName.getText()+"."+ inputEmail.getText());
  
             	//Globals.USER_NAME = nameET.getText().toString();
-            	//startActivity(driverMeeting);
+            	startActivity(driverMeeting);
+            	finish();
             	
-            	try {
+            	/*try {
 					((RacerApplication)BinaryRacer.this.getApplication()).sendData(nameET.getText().toString());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
+
+            	
  
             }
         });

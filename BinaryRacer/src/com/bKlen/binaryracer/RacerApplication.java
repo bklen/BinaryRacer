@@ -1,8 +1,14 @@
 package com.bKlen.binaryracer;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,8 +19,10 @@ import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -34,13 +42,14 @@ public class RacerApplication extends Application
     int readBufferPosition;
     int counter;
     volatile boolean stopWorker;
-
-    //test comment
     
+    public String bluetoothDevice = "";
+
 	@Override
     public void onCreate() 
     {
         super.onCreate();
+        bluetoothDevice = readFromFile();
         findBT();
         try {
 			openBT();
@@ -69,7 +78,7 @@ public class RacerApplication extends Application
         {
             for(BluetoothDevice device : pairedDevices)
             {
-                if(device.getName().equals("Galaxy NexusCDMA 2")) //Note, you will need to change this to match the name of your device
+                if(device.getName().equals(bluetoothDevice)) //Note, you will need to change this to match the name of your device
                 {
                     mmDevice = device;
                     break;
@@ -138,6 +147,13 @@ public class RacerApplication extends Application
                                             	b += " " + a;
                                             	Log.d("bluetooth", b);
                                             }
+                                            if(list.contains("RESET"))
+                                            {
+                                            	Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
+                                            	driverMeeting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            	startActivity(driverMeeting);
+                                            	//current
+                                            }
                                         }
                                     });
                                 }
@@ -161,8 +177,6 @@ public class RacerApplication extends Application
     
     void sendData(String msg) throws IOException
     {
-        //String msg = myTextbox.getText().toString();
-    	//String msg = "brandon,test,send";
         msg += "\n";
         mmOutputStream.write(msg.getBytes());
         Log.d("bluetooth", "Data Sent");
@@ -175,5 +189,37 @@ public class RacerApplication extends Application
         mmInputStream.close();
         mmSocket.close();
         Log.d("bluetooth", "Bluetooth Closed");
+    }
+
+    public String readFromFile() {
+
+        String ret = "";
+
+        try {
+        	final File file = new File(Environment.getExternalStorageDirectory()
+                    .getAbsolutePath(), "BinaryRacer.txt");
+            FileInputStream inputStream = new FileInputStream(file);
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        return ret;
     }
 }
