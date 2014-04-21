@@ -43,7 +43,7 @@ public class DriverMeeting extends Activity
     {
     	radioDiffGroup = (RadioGroup) findViewById(R.id.radioDiffGroup);
     	radioLapsGroup = (RadioGroup) findViewById(R.id.radioLapsGroup);
-    	startButton = (Button) findViewById(R.id.startRaceButton);
+    	startButton = (Button) findViewById(R.id.answerButton);
      
     	startButton.setOnClickListener(new OnClickListener()
     	{

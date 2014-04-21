@@ -16,7 +16,7 @@
         android:textSize="32sp" />
 
     <TextView
-        android:id="@+id/lapCountTextView"
+        android:id="@+id/oppTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/driverMeetingTextView"
-        android:layout_alignTop="@+id/difficultyTextView" >
+        android:layout_alignTop="@+id/youTextView" >
 
         <RadioButton
             android:id="@+id/goldRadioButton"
@@ -54,7 +54,7 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/difficultyTextView"
+        android:id="@+id/youTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/radioDiffGroup"
@@ -67,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/radioDiffGroup"
-        android:layout_alignLeft="@+id/lapCountTextView" >
+        android:layout_alignLeft="@+id/oppTextView" >
 
         <RadioButton
             android:id="@+id/fiveRadioButton"
@@ -90,7 +90,7 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/startRaceButton"
+        android:id="@+id/answerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radioDiffGroup"
