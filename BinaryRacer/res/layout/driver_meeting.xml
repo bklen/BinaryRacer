@@ -20,13 +20,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/radioGroup1"
+        android:layout_alignTop="@+id/radioDiffGroup"
         android:layout_marginRight="28dp"
         android:text="@string/lap_count_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <RadioGroup
-        android:id="@+id/radioGroup1"
+        android:id="@+id/radioDiffGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/driverMeetingTextView"
@@ -37,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
+            android:checked="true"
             android:text="@string/gold_radiobutton" />
 
         <RadioButton
@@ -56,22 +57,23 @@
         android:id="@+id/difficultyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/radioGroup1"
+        android:layout_alignLeft="@+id/radioDiffGroup"
         android:layout_below="@+id/driverMeetingTextView"
         android:text="@string/difficulty_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <RadioGroup
-        android:id="@+id/radioGroup2"
+        android:id="@+id/radioLapsGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/radioGroup1"
+        android:layout_alignBottom="@+id/radioDiffGroup"
         android:layout_alignLeft="@+id/lapCountTextView" >
 
         <RadioButton
             android:id="@+id/fiveRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/five_laps_radiobutton" />
 
         <RadioButton
@@ -91,7 +93,7 @@
         android:id="@+id/startRaceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup1"
+        android:layout_below="@+id/radioDiffGroup"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="@string/start_race_button" />

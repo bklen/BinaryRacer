@@ -25,6 +25,7 @@
         </activity>
         
         <activity android:name="com.bKlen.binaryracer.DriverMeeting"></activity>
+        <activity android:name="com.bKlen.binaryracer.DriverMeetingWait"></activity>
         <activity android:name="com.bKlen.binaryracer.LapCounter"></activity>
         
     </application>

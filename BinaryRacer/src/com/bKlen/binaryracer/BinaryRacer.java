@@ -3,6 +3,7 @@ package com.bKlen.binaryracer;
 import java.io.IOException;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,9 @@ public class BinaryRacer extends Activity
 {
 
 	private String name = "";
+	//data received and data to send
+	String dataR="";
+	String dataS="";
 	
 	EditText nameET;
 	
@@ -36,7 +40,7 @@ public class BinaryRacer extends Activity
 			
 			@Override
 			public void onClick(View arg0) {
-				nameET.setText("");
+				nameET.setText(((RacerApplication)BinaryRacer.this.getApplication()).trackPos);
 				
 			}
 		});
@@ -52,7 +56,7 @@ public class BinaryRacer extends Activity
             public void onClick(View arg0)
             {
                 //Starting a new Intent
-            	Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
+            	//Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
  
                 //Sending data to another Activity
                 //nextScreen.putExtra("name", inputName.getText().toString());
@@ -61,8 +65,8 @@ public class BinaryRacer extends Activity
                 //Log.e("n", inputName.getText()+"."+ inputEmail.getText());
  
             	//Globals.USER_NAME = nameET.getText().toString();
-            	startActivity(driverMeeting);
-            	finish();
+            	//startActivity(driverMeeting);
+            	//finish();
             	
             	/*try {
 					((RacerApplication)BinaryRacer.this.getApplication()).sendData(nameET.getText().toString());
@@ -71,11 +75,18 @@ public class BinaryRacer extends Activity
 					e.printStackTrace();
 				}*/
 
-            	
+            	Intent driverMeeting;
+            	if (((RacerApplication)BinaryRacer.this.getApplication()).trackPos.equals("O"))
+		        	driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
+            	else
+            		driverMeeting = new Intent(getApplicationContext(), DriverMeetingWait.class);
+            	startActivity(driverMeeting);
+            	thread.interrupt();
+	        	finish();
  
             }
         });
-        
+        thread.start();
 	}
 
 	
@@ -129,5 +140,48 @@ public class BinaryRacer extends Activity
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	Handler h = new Handler();
+    Runnable r=new Runnable()
+    {
+        public void run() 
+        {
+        	dataR = (((RacerApplication)BinaryRacer.this.getApplication()).dataList.get(0));
+        	if (dataR.equals("RESTART"))
+        	{
+        		dataS = (((RacerApplication)BinaryRacer.this.getApplication()).trackPos) + ",R,OK";
+        		try {
+					((RacerApplication)BinaryRacer.this.getApplication()).sendData(dataS);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		(((RacerApplication)BinaryRacer.this.getApplication()).newData) = false;
+        	}
+        	else
+        	{
+        		Log.e("MCU stream", "invalid message from MCU");
+        		(((RacerApplication)BinaryRacer.this.getApplication()).newData) = false;
+        	}
+        }
+    };
+    Thread thread = new Thread()
+    {
+        @Override
+        public void run() 
+        {
+            while(true)
+            {
+            	if ((((RacerApplication)BinaryRacer.this.getApplication()).newData) == true)
+            	{
+            		h.post(r);
+            	}
+            	if (thread.isInterrupted())
+            	{
+            		return;
+            	}
+			}
+        }
+    };
 
 }

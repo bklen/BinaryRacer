@@ -1,55 +1,128 @@
 package com.bKlen.binaryracer;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
- 
-public class DriverMeeting extends Activity {
+import android.widget.Toast;
+
+public class DriverMeeting extends Activity
+{
+	
+	private RadioGroup radioDiffGroup;
+	private RadioButton diffButton;
+	private RadioGroup radioLapsGroup;
+	private RadioButton lapsButton;
+	
+	private Button startButton;
+	public List<String> dataList = new ArrayList<String>();
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.driver_meeting);
         
-        Button startButton = (Button) findViewById(R.id.startRaceButton);
- 
-        startButton.setOnClickListener(new View.OnClickListener() {
-        	 
-            public void onClick(View arg0)
-            {
-                //Starting a new Intent
-                //Intent lapCounter = new Intent(getApplicationContext(), LapCounter.class);
-            	Intent lapCounter = new Intent(getApplicationContext(), LapCounter.class);
- 
-                //Sending data to another Activity
-                //nextScreen.putExtra("name", inputName.getText().toString());
-                //nextScreen.putExtra("email", inputEmail.getText().toString());
- 
-                //Log.e("n", inputName.getText()+"."+ inputEmail.getText());
- 
-                //startActivity(lapCounter);
-            	startActivity(lapCounter);
-            	finish();
- 
-            }
-        });
- 
+        addListenerOnButton();
+        thread.start();
     }
     
-    /*@Override
-    public void onBackPressed() {
-    	try {
-			this.finalize();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }*/
+    public void addListenerOnButton()
+    {
+    	radioDiffGroup = (RadioGroup) findViewById(R.id.radioDiffGroup);
+    	radioLapsGroup = (RadioGroup) findViewById(R.id.radioLapsGroup);
+    	startButton = (Button) findViewById(R.id.startRaceButton);
+     
+    	startButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			// get selected radio button from radioGroup
+    			int diffID = radioDiffGroup.getCheckedRadioButtonId();
+    			int lapsID = radioLapsGroup.getCheckedRadioButtonId();
+     
+    			// find the radiobutton by returned id
+    		    diffButton = (RadioButton) findViewById(diffID);
+    		    lapsButton = (RadioButton) findViewById(lapsID);
+    		    
+    		    int diff, laps = 0;
+    		    if (diffButton.getText().equals("Gold"))
+    		    	diff = 3;
+    		    else if (diffButton.getText().equals("Silver"))
+    		    	diff = 2;
+    		    else
+    		    	diff = 1;
+    		    
+    		    if (lapsButton.getText().equals("5 Laps"))
+    		    	laps = 5;
+    		    else if (lapsButton.getText().equals("10 Laps"))
+    		    	laps = 10;
+    		    else
+    		    	laps = 15;
+    		    
+    		    String dataS = "O,MR," + diff + "," + laps;
+    		    try {
+					((RacerApplication)DriverMeeting.this.getApplication()).sendData(dataS);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	});  
+    }
+    
+    Handler h = new Handler();
+    Runnable r=new Runnable()
+    {
+        public void run() 
+        {
+        	dataList = ((RacerApplication)DriverMeeting.this.getApplication()).dataList;
+        	if (dataList.get(0).equals("MR") && dataList.get(1).equals("OK"))
+        	{
+        		(((RacerApplication)DriverMeeting.this.getApplication()).newData) = false;
+        		Intent lapCounter = new Intent(getApplicationContext(), LapCounter.class);
+        		startActivity(lapCounter);
+        		thread.interrupt();
+            	finish();
+        	}
+        	else
+        	{
+        		Log.d("MCU stream", "invalid message from MCU:" + dataList.toString());
+        		(((RacerApplication)DriverMeeting.this.getApplication()).newData) = false;
+        	}
+        }
+    };
+    Thread thread = new Thread()
+    {
+        @Override
+        public void run() 
+        {
+            while(true)
+            {
+            	if ((((RacerApplication)DriverMeeting.this.getApplication()).newData) == true)
+            	{
+            		h.post(r);
+            	}
+            	if (thread.isInterrupted())
+            	{
+            		return;
+            	}
+			}
+        }
+    };
     
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {

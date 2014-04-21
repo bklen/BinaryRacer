@@ -43,13 +43,17 @@ public class RacerApplication extends Application
     int counter;
     volatile boolean stopWorker;
     
+    public String trackPos = "";
     public String bluetoothDevice = "";
+    public boolean newData = false;
+    public List<String> dataList = new ArrayList<String>();
 
 	@Override
     public void onCreate() 
     {
         super.onCreate();
         bluetoothDevice = readFromFile();
+        getTrackPos();
         findBT();
         try {
 			openBT();
@@ -139,8 +143,9 @@ public class RacerApplication extends Application
 										public void run()
                                         {
                                         	Log.d("bluetooth", data);
-                                            List<String> list = new ArrayList<String>(Arrays.asList(data.split(",")));
-                                            String a, b = "";
+                                            dataList = Arrays.asList(data.split(","));
+                                            newData = true;
+                                            /*String a, b = "";
                                             for(int i=0; i<list.size(); i++)
                                             {
                                             	a = list.get(i);
@@ -149,11 +154,11 @@ public class RacerApplication extends Application
                                             }
                                             if(list.contains("RESET"))
                                             {
-                                            	Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
-                                            	driverMeeting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            	startActivity(driverMeeting);
+                                            	//Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
+                                            	//driverMeeting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            	//startActivity(driverMeeting);
                                             	//current
-                                            }
+                                            }*/
                                         }
                                     });
                                 }
@@ -191,7 +196,8 @@ public class RacerApplication extends Application
         Log.d("bluetooth", "Bluetooth Closed");
     }
 
-    public String readFromFile() {
+    public String readFromFile()
+    {
 
         String ret = "";
 
@@ -221,5 +227,14 @@ public class RacerApplication extends Application
         }
 
         return ret;
+    }
+    
+    void getTrackPos()
+    {
+    	if (bluetoothDevice.equals("YP-G70-Out"))
+    		trackPos = "I";
+    	else
+    		trackPos = "O";
+    			
     }
 }
