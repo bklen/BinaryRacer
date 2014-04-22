@@ -103,6 +103,8 @@ public class RacerApplication extends Application
         beginListenForData();
         
         Log.d("bluetooth", "Bluetooth Opened");
+        String dataS = trackPos + ",RESET";
+        sendData(dataS);
     }
     
     void beginListenForData()
@@ -231,10 +233,9 @@ public class RacerApplication extends Application
     
     void getTrackPos()
     {
-    	if (bluetoothDevice.equals("YP-G70-Out"))
-    		trackPos = "I";
-    	else
+    	if (bluetoothDevice.equals("RNBT-EF5A"))
     		trackPos = "O";
-    			
+    	else
+    		trackPos = "I";	
     }
 }

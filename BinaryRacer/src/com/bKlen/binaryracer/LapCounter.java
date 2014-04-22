@@ -59,6 +59,7 @@ public class LapCounter extends Activity
     		{
     			if (answerBox.getText().toString().equals(answer))
     			{
+    				answerButton.setEnabled(false);
     				String dataS = trackPos + ",C";
     				try {
 						((RacerApplication)LapCounter.this.getApplication()).sendData(dataS);
@@ -105,10 +106,10 @@ public class LapCounter extends Activity
 				numberToConvertTextView.setText(dataList.get(4));
 				answer = dataList.get(5);	
         	}
-        	else if(dataList.get(1).equals("C"))
+        	else if(dataList.get(0).equals("C"))
         	{
         		answerButton.setEnabled(false);
-        		if (dataList.get(0).equals(trackPos))
+        		if (dataList.get(1).equals(trackPos))
         		{
         			Toast.makeText(LapCounter.this, "ROUND WON", Toast.LENGTH_LONG).show();
         		}

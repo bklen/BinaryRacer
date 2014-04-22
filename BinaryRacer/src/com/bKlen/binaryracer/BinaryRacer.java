@@ -76,7 +76,7 @@ public class BinaryRacer extends Activity
 				}*/
 
             	Intent driverMeeting;
-            	if (((RacerApplication)BinaryRacer.this.getApplication()).trackPos.equals("I"))
+            	if (((RacerApplication)BinaryRacer.this.getApplication()).trackPos.equals("O"))
 		        	driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
             	else
             		driverMeeting = new Intent(getApplicationContext(), DriverMeetingWait.class);
