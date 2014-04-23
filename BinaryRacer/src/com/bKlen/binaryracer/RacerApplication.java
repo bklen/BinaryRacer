@@ -47,6 +47,7 @@ public class RacerApplication extends Application
     public String bluetoothDevice = "";
     public boolean newData = false;
     public List<String> dataList = new ArrayList<String>();
+    public String laps;
 
 	@Override
     public void onCreate() 

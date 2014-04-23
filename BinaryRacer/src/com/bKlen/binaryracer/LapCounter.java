@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -25,11 +28,14 @@ public class LapCounter extends Activity
 	TextView youCountTextView;
 	TextView oppCountTextView;
 	TextView numberToConvertTextView;
+	TextView label;
 	EditText answerBox;
 	Button answerButton;
+	String laps;
 	
 	String answer;
 	String trackPos;
+	String dataS;
 	public List<String> dataList = new ArrayList<String>();
 	
     /** Called when the activity is first created. */
@@ -41,8 +47,12 @@ public class LapCounter extends Activity
         youCountTextView = (TextView) findViewById(R.id.youCountTextView);
         oppCountTextView = (TextView) findViewById(R.id.oppCountTextView);
         numberToConvertTextView = (TextView) findViewById(R.id.numberTextView);
+        label = (TextView) findViewById(R.id.label);
         answerBox = (EditText) findViewById(R.id.answerEditText);
         answerButton = (Button) findViewById(R.id.answerButton);
+        
+        laps = ((RacerApplication)LapCounter.this.getApplication()).laps;
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
         addListenerOnButton();
         trackPos= ((RacerApplication)LapCounter.this.getApplication()).trackPos;
@@ -57,8 +67,11 @@ public class LapCounter extends Activity
     		@Override
     		public void onClick(View v)
     		{
+    			
     			if (answerBox.getText().toString().equals(answer))
     			{
+    				//label.setText("correct");
+    				label.setText("");
     				answerButton.setEnabled(false);
     				String dataS = trackPos + ",C";
     				try {
@@ -67,6 +80,10 @@ public class LapCounter extends Activity
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+    			}
+    			else
+    			{
+    				label.setText("incorrect");
     			}
     		}
     	});  
@@ -82,6 +99,8 @@ public class LapCounter extends Activity
         	if (dataList.get(0).equals("Q"))
         	{
         		answerButton.setEnabled(true);
+        		answerBox.setText("");
+        		label.setText("");
         		String dataS = trackPos + ",Q,OK";
 				try {
 					((RacerApplication)LapCounter.this.getApplication()).sendData(dataS);
@@ -101,6 +120,12 @@ public class LapCounter extends Activity
 					oppCountTextView.setText(dataList.get(2));
 				}
 				
+				if (youCountTextView.getText().toString().equals(laps));
+				{
+					//won();
+					//oppCountTextView.setText(laps);
+				}
+				
 				//TODO: set binary input restriction
 				
 				numberToConvertTextView.setText(dataList.get(4));
@@ -111,12 +136,41 @@ public class LapCounter extends Activity
         		answerButton.setEnabled(false);
         		if (dataList.get(1).equals(trackPos))
         		{
-        			Toast.makeText(LapCounter.this, "ROUND WON", Toast.LENGTH_LONG).show();
+        			//Toast.makeText(LapCounter.this, "ROUND WON", Toast.LENGTH_LONG).show();
+        			label.setText("correct!");
         		}
         		else
         		{
-        			Toast.makeText(LapCounter.this, "ROUND LOST", Toast.LENGTH_LONG).show();
+        			//Toast.makeText(LapCounter.this, "ROUND LOST", Toast.LENGTH_LONG).show();
+        			label.setText("Sorry, Your opponent answered correctly first!");
         		}
+        	}
+        	else if (dataList.get(0).equals("HB"))
+        	{
+        		dataS = (((RacerApplication)LapCounter.this.getApplication()).trackPos);
+        		try {
+					((RacerApplication)LapCounter.this.getApplication()).sendData(dataS);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
+        	}
+        	else if(dataList.get(0).equals("RESTART"))
+        	{
+        		dataS = (((RacerApplication)LapCounter.this.getApplication()).trackPos) + ",R,OK";
+        		try {
+					((RacerApplication)LapCounter.this.getApplication()).sendData(dataS);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
+        		Intent binaryRacer;
+            	binaryRacer = new Intent(getApplicationContext(), BinaryRacer.class);
+            	startActivity(binaryRacer);
+            	thread.interrupt();
+	        	finish();
         	}
         }
     };
@@ -160,5 +214,47 @@ public class LapCounter extends Activity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    void won()
+    {
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				getBaseContext());
+ 
+			// set title
+			alertDialogBuilder.setTitle("You Won");
+ 
+			// set dialog message
+			alertDialogBuilder
+				.setMessage("You Won!")
+				.setCancelable(false)
+				.setPositiveButton("Restart",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, close
+						// current activity
+						
+		            	dataS = trackPos + ",RESET";
+		            	try {
+							((RacerApplication)LapCounter.this.getApplication()).sendData(dataS);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		            	
+					}
+				  });
+				/*.setNegativeButton("No",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, just close
+						// the dialog box and do nothing
+						dialog.cancel();
+					}
+				});*/
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				// show it
+				alertDialog.show();
     }
 }

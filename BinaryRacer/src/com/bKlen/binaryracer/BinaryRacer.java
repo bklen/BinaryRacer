@@ -23,6 +23,7 @@ public class BinaryRacer extends Activity
 	//data received and data to send
 	String dataR="";
 	String dataS="";
+	Button loginButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -30,8 +31,9 @@ public class BinaryRacer extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 		
-		Button loginButton = (Button) findViewById(R.id.loginButton);
-		
+		loginButton = (Button) findViewById(R.id.loginButton);
+		loginButton.setEnabled(false);
+		thread.start();
 		//Listening to button event
         loginButton.setOnClickListener(new View.OnClickListener()
         {
@@ -59,7 +61,7 @@ public class BinaryRacer extends Activity
 				}*/
 
             	Intent driverMeeting;
-            	if (((RacerApplication)BinaryRacer.this.getApplication()).trackPos.equals("I"))
+            	if (((RacerApplication)BinaryRacer.this.getApplication()).trackPos.equals("O"))
 		        	driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
             	else
             		driverMeeting = new Intent(getApplicationContext(), DriverMeetingWait.class);
@@ -69,7 +71,7 @@ public class BinaryRacer extends Activity
  
             }
         });
-        thread.start();
+        
 	}
 
 	
@@ -133,6 +135,18 @@ public class BinaryRacer extends Activity
         	if (dataR.equals("RESTART"))
         	{
         		dataS = (((RacerApplication)BinaryRacer.this.getApplication()).trackPos) + ",R,OK";
+        		try {
+					((RacerApplication)BinaryRacer.this.getApplication()).sendData(dataS);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		(((RacerApplication)BinaryRacer.this.getApplication()).newData) = false;
+        		loginButton.setEnabled(true);
+        	}
+        	else if (dataR.equals("HB"))
+        	{
+        		dataS = (((RacerApplication)BinaryRacer.this.getApplication()).trackPos);
         		try {
 					((RacerApplication)BinaryRacer.this.getApplication()).sendData(dataS);
 				} catch (IOException e) {

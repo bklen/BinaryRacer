@@ -28,6 +28,7 @@ public class DriverMeeting extends Activity
 	
 	private Button startButton;
 	public List<String> dataList = new ArrayList<String>();
+	String dataS;
 	
     /** Called when the activity is first created. */
     @Override
@@ -73,6 +74,7 @@ public class DriverMeeting extends Activity
     		    else
     		    	laps = 15;
     		    
+    		    ((RacerApplication)DriverMeeting.this.getApplication()).laps = Integer.toString(laps);
     		    String dataS = "O,MR," + diff + "," + laps;
     		    try {
 					((RacerApplication)DriverMeeting.this.getApplication()).sendData(dataS);
@@ -97,6 +99,17 @@ public class DriverMeeting extends Activity
         		startActivity(lapCounter);
         		thread.interrupt();
             	finish();
+        	}
+        	else if (dataList.get(0).equals("HB"))
+        	{
+        		dataS = (((RacerApplication)DriverMeeting.this.getApplication()).trackPos);
+        		try {
+					((RacerApplication)DriverMeeting.this.getApplication()).sendData(dataS);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		(((RacerApplication)DriverMeeting.this.getApplication()).newData) = false;
         	}
         	else
         	{

@@ -39,18 +39,22 @@ public class DriverMeetingWait extends Activity
         	dataList = ((RacerApplication)DriverMeetingWait.this.getApplication()).dataList;
         	if (dataList.get(0).equals("MR") && dataList.get(1).equals("OK"))
         	{
-        		/*dataS = (((RacerApplication)DriverMeetingWait.this.getApplication()).trackPos) + ",R,OK";
-        		try {
-					((RacerApplication)DriverMeetingWait.this.getApplication()).sendData(dataS);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
         		(((RacerApplication)DriverMeetingWait.this.getApplication()).newData) = false;
         		Intent lapCounter = new Intent(getApplicationContext(), LapCounter.class);
         		startActivity(lapCounter);
         		thread.interrupt();
             	finish();
+        	}
+        	else if (dataList.get(0).equals("HB"))
+        	{
+        		dataS = (((RacerApplication)DriverMeetingWait.this.getApplication()).trackPos);
+        		try {
+					((RacerApplication)DriverMeetingWait.this.getApplication()).sendData(dataS);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		(((RacerApplication)DriverMeetingWait.this.getApplication()).newData) = false;
         	}
         	else
         	{
