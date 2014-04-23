@@ -20,32 +20,15 @@ import android.widget.EditText;
 
 public class BinaryRacer extends Activity
 {
-
-	private String name = "";
 	//data received and data to send
 	String dataR="";
 	String dataS="";
-	
-	EditText nameET;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		
-		nameET = (EditText) findViewById(R.id.nameEditText);
-		nameET.addTextChangedListener(nameListener);
-		nameET.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				nameET.setText(((RacerApplication)BinaryRacer.this.getApplication()).trackPos);
-				
-			}
-		});
-		
-		nameET.setText("Name");
 		
 		Button loginButton = (Button) findViewById(R.id.loginButton);
 		
@@ -76,7 +59,7 @@ public class BinaryRacer extends Activity
 				}*/
 
             	Intent driverMeeting;
-            	if (((RacerApplication)BinaryRacer.this.getApplication()).trackPos.equals("O"))
+            	if (((RacerApplication)BinaryRacer.this.getApplication()).trackPos.equals("I"))
 		        	driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
             	else
             		driverMeeting = new Intent(getApplicationContext(), DriverMeetingWait.class);

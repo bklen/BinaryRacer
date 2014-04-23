@@ -29,4 +29,6 @@
     <string name="dec_number_text">#</string>
     <string name="to_binary_text">to binary</string>
     <string name="answer_button">answer</string>
+    
+    <string name="meeting_wait">Meet with other driver to set the rules.</string>
 </resources>

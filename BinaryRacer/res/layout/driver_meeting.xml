@@ -33,24 +33,25 @@
         android:layout_alignTop="@+id/youTextView" >
 
         <RadioButton
-            android:id="@+id/goldRadioButton"
+            android:id="@+id/bronzeRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
             android:checked="true"
-            android:text="@string/gold_radiobutton" />
-
+            android:text="@string/bronze_radiobutton" />
+        
         <RadioButton
             android:id="@+id/silverRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/silver_radiobutton" />
-
+        
         <RadioButton
-            android:id="@+id/bronzeRadioButton"
+            android:id="@+id/goldRadioButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bronze_radiobutton" />
+            android:layout_height="wrap_content"            
+            android:text="@string/gold_radiobutton" />
+   
     </RadioGroup>
 
     <TextView
