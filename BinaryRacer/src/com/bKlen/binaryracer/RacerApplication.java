@@ -53,8 +53,8 @@ public class RacerApplication extends Application
     public void onCreate() 
     {
         super.onCreate();
-        bluetoothDevice = readFromFile();
-        getTrackPos();
+        bluetoothDevice = readFromFile("getBluetooth");
+        trackPos = readFromFile("getPosition");
         findBT();
         try {
 			openBT();
@@ -199,16 +199,26 @@ public class RacerApplication extends Application
         Log.d("bluetooth", "Bluetooth Closed");
     }
 
-    public String readFromFile()
+    public String readFromFile(String option)
     {
 
         String ret = "";
 
         try {
-        	final File file = new File(Environment.getExternalStorageDirectory()
-                    .getAbsolutePath(), "BinaryRacer.txt");
-            FileInputStream inputStream = new FileInputStream(file);
+        	final File file;
+        	
+        	if(option.equals("getPosition"))
+        	{
+        		file = new File(Environment.getExternalStorageDirectory()
+        				.getAbsolutePath(), "BinaryRacerPosition.txt");
+        	}
+        	else
+        	{
+        		file = new File(Environment.getExternalStorageDirectory()
+        				.getAbsolutePath(), "BinaryRacerBluetooth.txt");
+        	}
 
+        	FileInputStream inputStream = new FileInputStream(file);
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -230,13 +240,5 @@ public class RacerApplication extends Application
         }
 
         return ret;
-    }
-    
-    void getTrackPos()
-    {
-    	if (bluetoothDevice.equals("RNBT-EF5A"))
-    		trackPos = "O";
-    	else
-    		trackPos = "I";	
     }
 }

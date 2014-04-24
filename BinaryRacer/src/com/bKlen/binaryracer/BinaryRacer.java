@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,6 +31,7 @@ public class BinaryRacer extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		loginButton = (Button) findViewById(R.id.loginButton);
 		loginButton.setEnabled(false);

@@ -29,10 +29,14 @@ public class LapCounter extends Activity
 	TextView oppCountTextView;
 	TextView numberToConvertTextView;
 	TextView label;
-	EditText answerBox;
-	Button answerButton;
-	String laps;
+	TextView answerTextView;
 	
+	Button binZeroButton;
+	Button binOneButton;
+	Button backButton;
+	Button answerButton;
+	
+	String laps;
 	String answer;
 	String trackPos;
 	String dataS;
@@ -48,7 +52,11 @@ public class LapCounter extends Activity
         oppCountTextView = (TextView) findViewById(R.id.oppCountTextView);
         numberToConvertTextView = (TextView) findViewById(R.id.numberTextView);
         label = (TextView) findViewById(R.id.label);
-        answerBox = (EditText) findViewById(R.id.answerEditText);
+        answerTextView = (TextView) findViewById(R.id.answerTextView);
+        
+        binZeroButton = (Button) findViewById(R.id.binZeroButton);
+        binOneButton = (Button) findViewById(R.id.binOneButton);
+        backButton = (Button) findViewById(R.id.backButton);
         answerButton = (Button) findViewById(R.id.answerButton);
         
         laps = ((RacerApplication)LapCounter.this.getApplication()).laps;
@@ -68,11 +76,14 @@ public class LapCounter extends Activity
     		public void onClick(View v)
     		{
     			
-    			if (answerBox.getText().toString().equals(answer))
+    			if (answerTextView.getText().toString().equals(answer))
     			{
     				//label.setText("correct");
     				label.setText("");
     				answerButton.setEnabled(false);
+    				binZeroButton.setEnabled(false);
+            		binOneButton.setEnabled(false);
+            		backButton.setEnabled(false);
     				String dataS = trackPos + ",C";
     				try {
 						((RacerApplication)LapCounter.this.getApplication()).sendData(dataS);
@@ -86,7 +97,41 @@ public class LapCounter extends Activity
     				label.setText("incorrect");
     			}
     		}
-    	});  
+    	});
+    	
+    	backButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			if (editAnswer.length() > 0)
+    				editAnswer = editAnswer.substring(0, editAnswer.length() - 1);
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	binZeroButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "0";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	binOneButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "1";
+    			answerTextView.setText(editAnswer);
+    		}
+    	}); 
     }
     
     Handler h = new Handler();
@@ -99,7 +144,10 @@ public class LapCounter extends Activity
         	if (dataList.get(0).equals("Q"))
         	{
         		answerButton.setEnabled(true);
-        		answerBox.setText("");
+        		binZeroButton.setEnabled(true);
+        		binOneButton.setEnabled(true);
+        		backButton.setEnabled(true);
+        		answerTextView.setText("");
         		label.setText("");
         		String dataS = trackPos + ",Q,OK";
 				try {
@@ -120,12 +168,6 @@ public class LapCounter extends Activity
 					oppCountTextView.setText(dataList.get(2));
 				}
 				
-				if (youCountTextView.getText().toString().equals(laps));
-				{
-					//won();
-					//oppCountTextView.setText(laps);
-				}
-				
 				//TODO: set binary input restriction
 				
 				numberToConvertTextView.setText(dataList.get(4));
@@ -134,6 +176,9 @@ public class LapCounter extends Activity
         	else if(dataList.get(0).equals("C"))
         	{
         		answerButton.setEnabled(false);
+        		binZeroButton.setEnabled(false);
+        		binOneButton.setEnabled(false);
+        		backButton.setEnabled(false);
         		if (dataList.get(1).equals(trackPos))
         		{
         			//Toast.makeText(LapCounter.this, "ROUND WON", Toast.LENGTH_LONG).show();
@@ -154,6 +199,19 @@ public class LapCounter extends Activity
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+        		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
+        	}
+        	else if (dataList.get(0).equals("W"))
+        	{
+        		if (trackPos.equals(dataList.get(1)))
+        			won(true);
+        		else
+        			won(false);
+        		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
+        	}
+        	else if (dataList.get(0).equals("EM"))
+        	{
+        		label.setText(dataList.get(1));
         		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
         	}
         	else if(dataList.get(0).equals("RESTART"))
@@ -216,13 +274,14 @@ public class LapCounter extends Activity
         }
     }
     
-    void won()
+    void won(boolean won)
     {
-    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				getBaseContext());
+    	if (won)
+    	{
+    		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
  
 			// set title
-			alertDialogBuilder.setTitle("You Won");
+			alertDialogBuilder.setTitle("Game Over");
  
 			// set dialog message
 			alertDialogBuilder
@@ -243,18 +302,31 @@ public class LapCounter extends Activity
 		            	
 					}
 				  });
-				/*.setNegativeButton("No",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						// if this button is clicked, just close
-						// the dialog box and do nothing
-						dialog.cancel();
-					}
-				});*/
  
 				// create alert dialog
 				AlertDialog alertDialog = alertDialogBuilder.create();
  
 				// show it
 				alertDialog.show();
+    	}
+    	else
+    	{
+    		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+    		// set title
+    		alertDialogBuilder.setTitle("Game Over");
+
+    		// set dialog message
+    		alertDialogBuilder.setMessage("You Lost!").setCancelable(false);
+
+    		// create alert dialog
+    		AlertDialog alertDialog = alertDialogBuilder.create();
+
+    		// show it
+    		alertDialog.show();
+
+    		// After some action
+    		//alertDialog.dismiss();
+    	}
     }
 }

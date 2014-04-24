@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,6 +29,8 @@ public class DriverMeetingWait extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.driver_meeting_wait);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        
         thread.start();
     }
 
