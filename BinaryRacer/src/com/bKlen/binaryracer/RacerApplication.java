@@ -48,6 +48,7 @@ public class RacerApplication extends Application
     public boolean newData = false;
     public List<String> dataList = new ArrayList<String>();
     public String laps;
+    public boolean firstRestart = true;
 
 	@Override
     public void onCreate() 

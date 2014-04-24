@@ -224,6 +224,7 @@ public class LapCounter extends Activity
 					e.printStackTrace();
 				}
         		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
+        		(((RacerApplication)LapCounter.this.getApplication()).firstRestart) = false;
         		Intent binaryRacer;
             	binaryRacer = new Intent(getApplicationContext(), BinaryRacer.class);
             	startActivity(binaryRacer);

@@ -21,6 +21,7 @@ import android.widget.EditText;
 
 public class BinaryRacer extends Activity
 {
+	//change
 	//data received and data to send
 	String dataR="";
 	String dataS="";
@@ -34,7 +35,8 @@ public class BinaryRacer extends Activity
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		loginButton = (Button) findViewById(R.id.loginButton);
-		loginButton.setEnabled(false);
+		if ((((RacerApplication)BinaryRacer.this.getApplication()).firstRestart))
+			loginButton.setEnabled(false);
 		thread.start();
 		//Listening to button event
         loginButton.setOnClickListener(new View.OnClickListener()
