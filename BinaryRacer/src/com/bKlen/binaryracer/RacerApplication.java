@@ -49,13 +49,13 @@ public class RacerApplication extends Application
     public List<String> dataList = new ArrayList<String>();
     public String laps;
     public boolean firstRestart = true;
+    String[] fileData = new String[2];
 
 	@Override
     public void onCreate() 
     {
         super.onCreate();
-        bluetoothDevice = readFromFile("getBluetooth");
-        trackPos = readFromFile("getPosition");
+        readFromFile();
         findBT();
         try {
 			openBT();
@@ -200,7 +200,7 @@ public class RacerApplication extends Application
         Log.d("bluetooth", "Bluetooth Closed");
     }
 
-    public String readFromFile(String option)
+    public void readFromFile()
     {
 
         String ret = "";
@@ -208,16 +208,8 @@ public class RacerApplication extends Application
         try {
         	final File file;
         	
-        	if(option.equals("getPosition"))
-        	{
-        		file = new File(Environment.getExternalStorageDirectory()
-        				.getAbsolutePath(), "BinaryRacerPosition.txt");
-        	}
-        	else
-        	{
-        		file = new File(Environment.getExternalStorageDirectory()
-        				.getAbsolutePath(), "BinaryRacerBluetooth.txt");
-        	}
+    		file = new File(Environment.getExternalStorageDirectory()
+    				.getAbsolutePath(), "BinaryRacer.txt");
 
         	FileInputStream inputStream = new FileInputStream(file);
             if ( inputStream != null ) {
@@ -225,13 +217,17 @@ public class RacerApplication extends Application
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString = "";
                 StringBuilder stringBuilder = new StringBuilder();
-
+                
+                int i = 0;
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
+                    //stringBuilder.append(receiveString);
+                    fileData[i++] = receiveString;
                 }
-
+                bluetoothDevice = fileData[0];
+                trackPos = fileData[1];
+                
                 inputStream.close();
-                ret = stringBuilder.toString();
+                //ret = stringBuilder.toString();
             }
         }
         catch (FileNotFoundException e) {
@@ -239,7 +235,5 @@ public class RacerApplication extends Application
         } catch (IOException e) {
             Log.e("login activity", "Can not read file: " + e.toString());
         }
-
-        return ret;
     }
 }

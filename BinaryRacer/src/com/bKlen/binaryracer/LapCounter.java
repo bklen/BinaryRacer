@@ -30,9 +30,24 @@ public class LapCounter extends Activity
 	TextView numberToConvertTextView;
 	TextView label;
 	TextView answerTextView;
+	TextView convertTextView;
 	
-	Button binZeroButton;
-	Button binOneButton;
+	Button zeroButton;
+	Button oneButton;
+	Button twoButton;
+	Button threeButton;
+	Button fourButton;
+	Button fiveButton;
+	Button sixButton;
+	Button sevenButton;
+	Button eightButton;
+	Button nineButton;
+	Button aButton;
+	Button bButton;
+	Button cButton;
+	Button dButton;
+	Button eButton;
+	Button fButton;
 	Button backButton;
 	Button answerButton;
 	
@@ -53,9 +68,24 @@ public class LapCounter extends Activity
         numberToConvertTextView = (TextView) findViewById(R.id.numberTextView);
         label = (TextView) findViewById(R.id.label);
         answerTextView = (TextView) findViewById(R.id.answerTextView);
+        convertTextView = (TextView) findViewById(R.id.convertTextView);
         
-        binZeroButton = (Button) findViewById(R.id.binZeroButton);
-        binOneButton = (Button) findViewById(R.id.binOneButton);
+        zeroButton = (Button) findViewById(R.id.zeroButton);
+        oneButton = (Button) findViewById(R.id.oneButton);
+        twoButton = (Button) findViewById(R.id.twoButton);
+    	threeButton = (Button) findViewById(R.id.threeButton);
+    	fourButton = (Button) findViewById(R.id.fourButton);
+    	fiveButton = (Button) findViewById(R.id.fiveButton);
+    	sixButton = (Button) findViewById(R.id.sixButton);
+    	sevenButton = (Button) findViewById(R.id.sevenButton);
+    	eightButton = (Button) findViewById(R.id.eightButton);
+    	nineButton = (Button) findViewById(R.id.nineButton);
+    	aButton = (Button) findViewById(R.id.aButton);
+    	bButton = (Button) findViewById(R.id.bButton);
+    	cButton = (Button) findViewById(R.id.cButton);
+    	dButton = (Button) findViewById(R.id.dButton);
+    	eButton = (Button) findViewById(R.id.eButton);
+    	fButton = (Button) findViewById(R.id.fButton);
         backButton = (Button) findViewById(R.id.backButton);
         answerButton = (Button) findViewById(R.id.answerButton);
         
@@ -81,8 +111,8 @@ public class LapCounter extends Activity
     				//label.setText("correct");
     				label.setText("");
     				answerButton.setEnabled(false);
-    				binZeroButton.setEnabled(false);
-            		binOneButton.setEnabled(false);
+    				zeroButton.setEnabled(false);
+            		oneButton.setEnabled(false);
             		backButton.setEnabled(false);
     				String dataS = trackPos + ",C";
     				try {
@@ -111,7 +141,7 @@ public class LapCounter extends Activity
     		}
     	});
     	
-    	binZeroButton.setOnClickListener(new OnClickListener()
+    	zeroButton.setOnClickListener(new OnClickListener()
     	{
     		@Override
     		public void onClick(View v)
@@ -122,7 +152,7 @@ public class LapCounter extends Activity
     		}
     	});
     	
-    	binOneButton.setOnClickListener(new OnClickListener()
+    	oneButton.setOnClickListener(new OnClickListener()
     	{
     		@Override
     		public void onClick(View v)
@@ -131,7 +161,161 @@ public class LapCounter extends Activity
     			editAnswer = editAnswer + "1";
     			answerTextView.setText(editAnswer);
     		}
-    	}); 
+    	});
+    	
+    	twoButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "2";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	threeButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "3";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	fourButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "4";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	fiveButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "5";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	sixButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "6";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	sevenButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "7";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	eightButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "8";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	nineButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "9";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	aButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "A";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	bButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "B";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	cButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "C";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	dButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "D";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	eButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "E";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
+    	
+    	fButton.setOnClickListener(new OnClickListener()
+    	{
+    		@Override
+    		public void onClick(View v)
+    		{
+    			String editAnswer = answerTextView.getText().toString();
+    			editAnswer = editAnswer + "F";
+    			answerTextView.setText(editAnswer);
+    		}
+    	});
     }
     
     Handler h = new Handler();
@@ -144,11 +328,10 @@ public class LapCounter extends Activity
         	if (dataList.get(0).equals("Q"))
         	{
         		answerButton.setEnabled(true);
-        		binZeroButton.setEnabled(true);
-        		binOneButton.setEnabled(true);
         		backButton.setEnabled(true);
         		answerTextView.setText("");
         		label.setText("");
+        		String base;
         		String dataS = trackPos + ",Q,OK";
 				try {
 					((RacerApplication)LapCounter.this.getApplication()).sendData(dataS);
@@ -168,7 +351,87 @@ public class LapCounter extends Activity
 					oppCountTextView.setText(dataList.get(2));
 				}
 				
-				//TODO: set binary input restriction
+				base = dataList.get(3);
+				if (base.equals("B"))
+				{
+					convertTextView.setText("To Binary: ");
+					zeroButton.setEnabled(true);
+	        		oneButton.setEnabled(true);
+					twoButton.setEnabled(false);
+					threeButton.setEnabled(false);
+					fourButton.setEnabled(false);
+					fiveButton.setEnabled(false);
+					sixButton.setEnabled(false);
+					sevenButton.setEnabled(false);
+					eightButton.setEnabled(false);
+					nineButton.setEnabled(false);
+					aButton.setEnabled(false);
+					bButton.setEnabled(false);
+					cButton.setEnabled(false);
+					dButton.setEnabled(false);
+					eButton.setEnabled(false);
+					fButton.setEnabled(false);
+				}
+				else if (base.equals("D"))
+				{
+					convertTextView.setText("To Decimal: ");
+					zeroButton.setEnabled(true);
+	        		oneButton.setEnabled(true);
+					twoButton.setEnabled(true);
+					threeButton.setEnabled(true);
+					fourButton.setEnabled(true);
+					fiveButton.setEnabled(true);
+					sixButton.setEnabled(true);
+					sevenButton.setEnabled(true);
+					eightButton.setEnabled(true);
+					nineButton.setEnabled(true);
+					aButton.setEnabled(false);
+					bButton.setEnabled(false);
+					cButton.setEnabled(false);
+					dButton.setEnabled(false);
+					eButton.setEnabled(false);
+					fButton.setEnabled(false);
+				}
+				else if (base.equals("O"))
+				{
+					convertTextView.setText("To Octal: ");
+					zeroButton.setEnabled(true);
+	        		oneButton.setEnabled(true);
+					twoButton.setEnabled(true);
+					threeButton.setEnabled(true);
+					fourButton.setEnabled(true);
+					fiveButton.setEnabled(true);
+					sixButton.setEnabled(true);
+					sevenButton.setEnabled(true);
+					eightButton.setEnabled(false);
+					nineButton.setEnabled(false);
+					aButton.setEnabled(false);
+					bButton.setEnabled(false);
+					cButton.setEnabled(false);
+					dButton.setEnabled(false);
+					eButton.setEnabled(false);
+					fButton.setEnabled(false);
+				}
+				else if (base.equals("H"))
+				{
+					convertTextView.setText("To Hex: ");
+					zeroButton.setEnabled(true);
+	        		oneButton.setEnabled(true);
+					twoButton.setEnabled(true);
+					threeButton.setEnabled(true);
+					fourButton.setEnabled(true);
+					fiveButton.setEnabled(true);
+					sixButton.setEnabled(true);
+					sevenButton.setEnabled(true);
+					eightButton.setEnabled(true);
+					nineButton.setEnabled(true);
+					aButton.setEnabled(true);
+					bButton.setEnabled(true);
+					cButton.setEnabled(true);
+					dButton.setEnabled(true);
+					eButton.setEnabled(true);
+					fButton.setEnabled(true);
+				}
 				
 				numberToConvertTextView.setText(dataList.get(4));
 				answer = dataList.get(5);	
@@ -176,9 +439,24 @@ public class LapCounter extends Activity
         	else if(dataList.get(0).equals("C"))
         	{
         		answerButton.setEnabled(false);
-        		binZeroButton.setEnabled(false);
-        		binOneButton.setEnabled(false);
         		backButton.setEnabled(false);
+        		zeroButton.setEnabled(false);
+        		oneButton.setEnabled(false);
+				twoButton.setEnabled(false);
+				threeButton.setEnabled(false);
+				fourButton.setEnabled(false);
+				fiveButton.setEnabled(false);
+				sixButton.setEnabled(false);
+				sevenButton.setEnabled(false);
+				eightButton.setEnabled(false);
+				nineButton.setEnabled(false);
+				aButton.setEnabled(false);
+				bButton.setEnabled(false);
+				cButton.setEnabled(false);
+				dButton.setEnabled(false);
+				eButton.setEnabled(false);
+				fButton.setEnabled(false);
+				
         		if (dataList.get(1).equals(trackPos))
         		{
         			//Toast.makeText(LapCounter.this, "ROUND WON", Toast.LENGTH_LONG).show();
