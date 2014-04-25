@@ -39,7 +39,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:padding="10dp"
         android:text="@string/lap_counter_text"
         android:textSize="35sp" />
 
@@ -69,51 +68,20 @@
             android:textSize="25sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/convertTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout3"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginTop="60dp"
-        android:paddingRight="8dp"
-        android:text="@string/to_binary_text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="23sp" />
-
-    <TextView
-        android:id="@+id/answerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/convertTextView"
-        android:layout_alignRight="@+id/tableLayout1"
-        android:layout_alignTop="@+id/convertTextView"
-        android:layout_toRightOf="@+id/convertTextView"
-        android:background="@color/grey"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="20sp" />
-
     <TableLayout
         android:id="@+id/tableLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/convertTextView"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="20dp" >
+        android:layout_centerHorizontal="true" >
 
-        <TableRow
-            android:id="@+id/tableRow1"
+        <TextView
+            android:id="@+id/answerTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-        </TableRow>
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="20sp" />
 
         <TableRow
             android:id="@+id/tableRow3"
@@ -121,105 +89,11 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/aButton"
+                android:id="@+id/zeroButton"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A"
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/sevenButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 7 "
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/eightButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 8 "
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/nineButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 9 "
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/dButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" D "
-                android:textSize="25sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/bButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="B"
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/fourButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 4 "
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/fiveButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 5 "
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/sixButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 6 "
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/eButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" E "
-                android:textSize="25sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/cButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="C"
+                android:text="0"
                 android:textSize="25sp" />
 
             <Button
@@ -247,20 +121,112 @@
                 android:textSize="25sp" />
 
             <Button
+                android:id="@+id/fourButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 4 "
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/fiveButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 5 "
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/sixButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 6 "
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/sevenButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 7 "
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/eightButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 8 "
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/nineButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 9 "
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/aButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/bButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="B"
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/cButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="C"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/dButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" D "
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/eButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" E "
+                android:textSize="25sp" />
+
+            <Button
                 android:id="@+id/fButton"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" F "
                 android:textSize="25sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="41dp" >
 
             <Button
                 android:id="@+id/backButton"
@@ -271,14 +237,6 @@
                 android:textSize="25sp" />
 
             <Button
-                android:id="@+id/zeroButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="25sp" />
-
-            <Button
                 android:id="@+id/answerButton"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
@@ -286,22 +244,42 @@
                 android:gravity="center"
                 android:text="@string/answer_button"
                 android:textSize="25sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
         </TableRow>
     </TableLayout>
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/red"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/convertTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout3"
+        android:layout_alignRight="@+id/tableLayout1"
+        android:layout_below="@+id/linearLayout3"
+        android:paddingLeft="20dp"
+        android:paddingRight="8dp"
+        android:text="@string/to_binary_text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="23sp" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/answerTextView"
-        android:layout_alignLeft="@+id/tableLayout1" >
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/label"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="40dp" >
 
         <TextView
             android:id="@+id/textView5"
@@ -313,23 +291,13 @@
 
         <TextView
             android:id="@+id/numberTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
+            android:layout_weight="7.05"
             android:paddingLeft="5dp"
             android:text="@string/dec_number_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="23sp" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/red"
-        android:textSize="15sp" />
 
 </RelativeLayout>

@@ -124,7 +124,7 @@ public class LapCounter extends Activity
     			}
     			else
     			{
-    				label.setText("incorrect");
+    				label.setText("INCORRECT...");
     			}
     		}
     	});
@@ -460,12 +460,13 @@ public class LapCounter extends Activity
         		if (dataList.get(1).equals(trackPos))
         		{
         			//Toast.makeText(LapCounter.this, "ROUND WON", Toast.LENGTH_LONG).show();
-        			label.setText("correct!");
+        			label.setText("CORRECT!");
         		}
         		else
         		{
         			//Toast.makeText(LapCounter.this, "ROUND LOST", Toast.LENGTH_LONG).show();
-        			label.setText("Sorry, Your opponent answered correctly first!");
+        			String text = "Your opponent answered first. The correct answer is: " + "\n" + answer; 
+        			label.setText(text);
         		}
         	}
         	else if (dataList.get(0).equals("HB"))
