@@ -28,7 +28,29 @@
     <string name="conver_text">Convert:</string>
     <string name="dec_number_text">#</string>
     <string name="to_binary_text">to :</string>
-    <string name="answer_button">=</string>
+    
+    <string name="zero_button">" 0 "</string>
+    <string name="one_button">" 1 "</string>
+    <string name="two_button">" 2 "</string>
+    <string name="three_button">" 3 "</string>
+    <string name="four_button">" 4 "</string>
+    <string name="five_button">" 5 "</string>
+    <string name="six_button">" 6 "</string>
+    <string name="seven_button">" 7 "</string>
+    <string name="eight_button">" 8 "</string>
+    <string name="nine_button">" 9 "</string>
+    <string name="A_button">" A "</string>
+    <string name="B_button">" B "</string>
+    <string name="C_button">" C "</string>
+    <string name="D_button">" D "</string>
+    <string name="E_button">" E "</string>
+    <string name="F_button">" F "</string>
+    <string name="back_button">&lt;--</string>
+    <string name="answer_button">" = "</string>
     
     <string name="meeting_wait">Meet with other driver to set the rules.</string>
+    
+    <string name="credits_text">Credits:\nPurdue EPICS GLEE Spring 2014\nProject Lead and Android\n Development: Brandon Klen</string>
+    
+    <string name="app_version_text">Android App Version: 1</string>
 </resources>

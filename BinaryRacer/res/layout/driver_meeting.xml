@@ -16,7 +16,7 @@
         android:textSize="32sp" />
 
     <TextView
-        android:id="@+id/oppTextView"
+        android:id="@+id/outerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/driverMeetingTextView"
-        android:layout_alignTop="@+id/youTextView" >
+        android:layout_alignTop="@+id/innerTextView" >
 
         <RadioButton
             android:id="@+id/bronzeRadioButton"
@@ -55,7 +55,7 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/youTextView"
+        android:id="@+id/innerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/radioDiffGroup"
@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/radioDiffGroup"
-        android:layout_alignLeft="@+id/oppTextView" >
+        android:layout_alignLeft="@+id/outerTextView" >
 
         <RadioButton
             android:id="@+id/fiveRadioButton"

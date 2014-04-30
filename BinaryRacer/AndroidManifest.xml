@@ -8,6 +8,8 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    
     <application
         android:name="com.bKlen.binaryracer.RacerApplication"
         android:allowBackup="true"
@@ -29,6 +31,4 @@
         <activity android:name="com.bKlen.binaryracer.LapCounter"></activity>
         
     </application>
-
-    <uses-permission android:name="android.permission.BLUETOOTH" />
 </manifest>

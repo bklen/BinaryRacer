@@ -10,26 +10,23 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class DriverMeeting extends Activity
 {
 	
-	private RadioGroup radioDiffGroup;
-	private RadioButton diffButton;
-	private RadioGroup radioLapsGroup;
-	private RadioButton lapsButton;
+	private RadioGroup radioDiffGroup;	// Difficulty radio button group
+	private RadioButton diffButton;		// Difficulty radio button
+	private RadioGroup radioLapsGroup;	// Number of laps radio button group
+	private RadioButton lapsButton;		// Number of laps radio button
 	
-	private Button startButton;
-	public List<String> dataList = new ArrayList<String>();
-	String dataS;
+	private Button startButton;			// Start Button
+	public List<String> dataList;		// ArrayList that holds parsed data read in from Bluetooth
+	String dataS;						// Data to be sent too Bluetooth device(MCU)
 	
     /** Called when the activity is first created. */
     @Override
@@ -38,6 +35,11 @@ public class DriverMeeting extends Activity
         setContentView(R.layout.driver_meeting);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
+        // Initialize variables
+        dataList = new ArrayList<String>();
+        dataS = "";
+        
+        // Add button listener and start thread to listen for and send data to MCU via Bluetooth
         addListenerOnButton();
         thread.start();
     }
@@ -48,6 +50,7 @@ public class DriverMeeting extends Activity
     	radioLapsGroup = (RadioGroup) findViewById(R.id.radioLapsGroup);
     	startButton = (Button) findViewById(R.id.answerButton);
      
+    	// Sets difficulty, number of laps, and sends this data to the MCU
     	startButton.setOnClickListener(new OnClickListener()
     	{
     		@Override
@@ -61,6 +64,7 @@ public class DriverMeeting extends Activity
     		    diffButton = (RadioButton) findViewById(diffID);
     		    lapsButton = (RadioButton) findViewById(lapsID);
     		    
+    		    // Get difficulty and number of laps
     		    int diff, laps = 0;
     		    if (diffButton.getText().equals("Gold"))
     		    	diff = 3;
@@ -68,7 +72,6 @@ public class DriverMeeting extends Activity
     		    	diff = 2;
     		    else
     		    	diff = 1;
-    		    
     		    if (lapsButton.getText().equals("5 Laps"))
     		    	laps = 5;
     		    else if (lapsButton.getText().equals("10 Laps"))
@@ -76,7 +79,7 @@ public class DriverMeeting extends Activity
     		    else
     		    	laps = 15;
     		    
-    		    ((RacerApplication)DriverMeeting.this.getApplication()).laps = Integer.toString(laps);
+    		    // Send difficulty and number of laps to MCU
     		    String dataS = "O,MR," + diff + "," + laps;
     		    try {
 					((RacerApplication)DriverMeeting.this.getApplication()).sendData(dataS);
@@ -93,7 +96,10 @@ public class DriverMeeting extends Activity
     {
         public void run() 
         {
+        	// Stores read in data in dataR then processes the data
         	dataList = ((RacerApplication)DriverMeeting.this.getApplication()).dataList;
+        	
+        	// Closes the activity, stops the thread, and navigates to the lap counter screen
         	if (dataList.get(0).equals("MR") && dataList.get(1).equals("OK"))
         	{
         		(((RacerApplication)DriverMeeting.this.getApplication()).newData) = false;
@@ -102,6 +108,7 @@ public class DriverMeeting extends Activity
         		thread.interrupt();
             	finish();
         	}
+        	// Sends MCU <T> as a heart beat
         	else if (dataList.get(0).equals("HB"))
         	{
         		dataS = (((RacerApplication)DriverMeeting.this.getApplication()).trackPos);
@@ -127,6 +134,7 @@ public class DriverMeeting extends Activity
         {
             while(true)
             {
+            	// If new data is read in, parse the data
             	if ((((RacerApplication)DriverMeeting.this.getApplication()).newData) == true)
             	{
             		h.post(r);
@@ -138,11 +146,4 @@ public class DriverMeeting extends Activity
 			}
         }
     };
-    
-    @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 }

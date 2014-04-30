@@ -10,18 +10,11 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
 
 public class DriverMeetingWait extends Activity
 {
-	
-	String dataR="";
-	String dataS="";
-	public List<String> dataList = new ArrayList<String>();
+	String dataS;					// Data to be sent too Bluetooth device(MCU)
+	public List<String> dataList; 	// ArrayList that holds parsed data read in from Bluetooth
 	
     /** Called when the activity is first created. */
     @Override
@@ -31,6 +24,11 @@ public class DriverMeetingWait extends Activity
         setContentView(R.layout.driver_meeting_wait);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
+        // Initialize variables
+        dataS = "";
+        dataList = new ArrayList<String>();
+        
+        // Start thread to start reading and writing to the MCU over Bluetooth
         thread.start();
     }
 
@@ -39,7 +37,10 @@ public class DriverMeetingWait extends Activity
     {
         public void run() 
         {
+        	// Stores read in data in dataR then processes the data
         	dataList = ((RacerApplication)DriverMeetingWait.this.getApplication()).dataList;
+        	
+        	// Closes the activity, stops the thread, and navigates to the lap counter screen
         	if (dataList.get(0).equals("MR") && dataList.get(1).equals("OK"))
         	{
         		(((RacerApplication)DriverMeetingWait.this.getApplication()).newData) = false;
@@ -48,6 +49,7 @@ public class DriverMeetingWait extends Activity
         		thread.interrupt();
             	finish();
         	}
+        	// Sends MCU <T> as a heart beat
         	else if (dataList.get(0).equals("HB"))
         	{
         		dataS = (((RacerApplication)DriverMeetingWait.this.getApplication()).trackPos);
@@ -73,6 +75,7 @@ public class DriverMeetingWait extends Activity
         {
             while(true)
             {
+            	// If new data is read in, parse the data
             	if ((((RacerApplication)DriverMeetingWait.this.getApplication()).newData) == true)
             	{
             		h.post(r);
@@ -84,11 +87,4 @@ public class DriverMeetingWait extends Activity
 			}
         }
     };
-    
-    @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 }

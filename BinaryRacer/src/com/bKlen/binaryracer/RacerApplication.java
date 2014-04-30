@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,16 +18,11 @@ import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class RacerApplication extends Application
 {
@@ -38,23 +32,33 @@ public class RacerApplication extends Application
     OutputStream mmOutputStream;
     InputStream mmInputStream;
     Thread workerThread;
-    byte[] readBuffer;
+    byte[] readBuffer;				
     int readBufferPosition;
     int counter;
     volatile boolean stopWorker;
     
-    public String trackPos = "";
-    public String bluetoothDevice = "";
-    public boolean newData = false;
-    public List<String> dataList = new ArrayList<String>();
-    public String laps;
-    public boolean firstRestart = true;
-    String[] fileData = new String[2];
+    public String trackPos;				// Tablet track position (inner or outer)
+    public String bluetoothDevice;		// Name of Bluetooth device the tablet will connect to
+    public boolean newData;				// Boolean that signals if there is newData waiting to be read
+    public List<String> dataList;		// ArrayList that holds parsed data read in from Bluetooth
+    public boolean firstRestart;		// Boolean to keep track of restarts
+    String[] fileData;					// String array to hold data read in from file
 
 	@Override
     public void onCreate() 
     {
         super.onCreate();
+        
+        // Initialize variables
+        trackPos = "";
+        bluetoothDevice = "";
+        newData = false;
+        dataList = new ArrayList<String>();
+        firstRestart = true;
+        fileData = new String[2];
+
+        // Read from file to get track position and Bluetooth device to connect too
+        // then find the bluetooth device, connect to it and start listening for data
         readFromFile();
         findBT();
         try {
@@ -65,6 +69,10 @@ public class RacerApplication extends Application
 		}
     }
 	
+	/**
+	   * Finds Specified Bluetooth device.
+	   * @param args Unused.
+	*/
 	void findBT()
     {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -84,7 +92,7 @@ public class RacerApplication extends Application
         {
             for(BluetoothDevice device : pairedDevices)
             {
-                if(device.getName().equals(bluetoothDevice)) //Note, you will need to change this to match the name of your device
+                if(device.getName().equals(bluetoothDevice))
                 {
                     mmDevice = device;
                     break;
@@ -94,6 +102,11 @@ public class RacerApplication extends Application
         Log.d("bluetooth", "Bluetooth Device Found");
     }
 	
+	/**
+	   * Opens bluetooth connection and begins listening for data
+	   * @param args Unused.
+	   * @see IOException
+	*/
 	void openBT() throws IOException
     {
         UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //Standard SerialPortService ID
@@ -109,6 +122,11 @@ public class RacerApplication extends Application
         sendData(dataS);
     }
     
+	/**
+	   * Begins listening to data from connected Bluetooth device.
+	   * Stores new data in dataList and sets newData to true when there is new data
+	   * @param args Unused.
+	*/
     void beginListenForData()
     {
         final Handler handler = new Handler(); 
@@ -146,23 +164,10 @@ public class RacerApplication extends Application
                                         @Override
 										public void run()
                                         {
+                                        	// Parses data and stores it in dataList
                                         	Log.d("bluetooth", data);
                                             dataList = Arrays.asList(data.split(","));
                                             newData = true;
-                                            /*String a, b = "";
-                                            for(int i=0; i<list.size(); i++)
-                                            {
-                                            	a = list.get(i);
-                                            	b += " " + a;
-                                            	Log.d("bluetooth", b);
-                                            }
-                                            if(list.contains("RESET"))
-                                            {
-                                            	//Intent driverMeeting = new Intent(getApplicationContext(), DriverMeeting.class);
-                                            	//driverMeeting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            	//startActivity(driverMeeting);
-                                            	//current
-                                            }*/
                                         }
                                     });
                                 }
@@ -180,10 +185,14 @@ public class RacerApplication extends Application
                }
             }
         });
-
         workerThread.start();
     }
     
+    /**
+	   * Sends data to the connected bluetooth device
+	   * @param msg This is the the message to be sent.
+	   * @see IOException
+	*/
     void sendData(String msg) throws IOException
     {
         msg += "\n";
@@ -191,6 +200,11 @@ public class RacerApplication extends Application
         Log.d("bluetooth", "Data Sent");
     }
     
+    /**
+	   * Closes Bluetooth connection
+	   * @param args Unused.
+	   * @see IOException
+	*/
     void closeBT() throws IOException
     {
         stopWorker = true;
@@ -200,11 +214,13 @@ public class RacerApplication extends Application
         Log.d("bluetooth", "Bluetooth Closed");
     }
 
+    /**
+	   * Reads from file the track position of the tablet and what Bluetooth device to 
+	   * connect too
+	   * @param args Unused.
+	*/
     public void readFromFile()
     {
-
-        String ret = "";
-
         try {
         	final File file;
         	
@@ -216,18 +232,15 @@ public class RacerApplication extends Application
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
                 
                 int i = 0;
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    //stringBuilder.append(receiveString);
                     fileData[i++] = receiveString;
                 }
                 bluetoothDevice = fileData[0];
                 trackPos = fileData[1];
                 
                 inputStream.close();
-                //ret = stringBuilder.toString();
             }
         }
         catch (FileNotFoundException e) {
@@ -235,5 +248,20 @@ public class RacerApplication extends Application
         } catch (IOException e) {
             Log.e("login activity", "Can not read file: " + e.toString());
         }
+    }
+    
+    /**
+	   * Gets the current version of the app
+	   * @param args Unused.
+	*/
+    public String getVersion()
+    {
+        int v = 0;
+        try {
+            v = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (NameNotFoundException e) {
+            // Huh? Really?
+        }
+        return String.valueOf(v);
     }
 }

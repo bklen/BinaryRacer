@@ -11,26 +11,19 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
  
 public class LapCounter extends Activity
 {
-	TextView youCountTextView;
-	TextView oppCountTextView;
-	TextView numberToConvertTextView;
-	TextView label;
-	TextView answerTextView;
-	TextView convertTextView;
+	TextView innerCountTextView;			// Inner lap count
+	TextView outerCountTextView;			// Outer lap count
+	TextView numberToConvertTextView;		// Number to convert too
+	TextView label;							// Information label i.e. error msg, wrong answer, correct answer
+	TextView answerTextView;				// Answer box inputed by user
+	TextView convertTextView;				// Base to convert too
 	
 	Button zeroButton;
 	Button oneButton;
@@ -51,25 +44,31 @@ public class LapCounter extends Activity
 	Button backButton;
 	Button answerButton;
 	
-	String laps;
-	String answer;
-	String trackPos;
-	String dataS;
-	public List<String> dataList = new ArrayList<String>();
+	String answer;							// Correct answer sent from MCU
+	String trackPos;						// Tabblet's track position(inner or outer)
+	String dataS;							// Data to be sent too Bluetooth device(MCU)
+	public List<String> dataList;			// ArrayList that holds parsed data read in from Bluetooth
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lap_counter);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
-        youCountTextView = (TextView) findViewById(R.id.youCountTextView);
-        oppCountTextView = (TextView) findViewById(R.id.oppCountTextView);
+        // Initialize variables
+        dataList = new ArrayList<String>();
+        trackPos= ((RacerApplication)LapCounter.this.getApplication()).trackPos;
+        
+        // Initialize text views
+        innerCountTextView = (TextView) findViewById(R.id.innerCountTextView);
+        outerCountTextView = (TextView) findViewById(R.id.outerCountTextView);
         numberToConvertTextView = (TextView) findViewById(R.id.numberTextView);
         label = (TextView) findViewById(R.id.label);
         answerTextView = (TextView) findViewById(R.id.answerTextView);
         convertTextView = (TextView) findViewById(R.id.convertTextView);
         
+        // Initialize buttons
         zeroButton = (Button) findViewById(R.id.zeroButton);
         oneButton = (Button) findViewById(R.id.oneButton);
         twoButton = (Button) findViewById(R.id.twoButton);
@@ -89,31 +88,43 @@ public class LapCounter extends Activity
         backButton = (Button) findViewById(R.id.backButton);
         answerButton = (Button) findViewById(R.id.answerButton);
         
-        laps = ((RacerApplication)LapCounter.this.getApplication()).laps;
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        
+        // add listeners on buttons
         addListenerOnButton();
-        trackPos= ((RacerApplication)LapCounter.this.getApplication()).trackPos;
-        thread.start();
         
+        // Start thread to start reading and writing to the MCU over Bluetooth
+        thread.start();
     }
     
     public void addListenerOnButton()
     {    
+    	// If answer is correct disable all buttons, and send <T>,C to the MCU
+		// else set the label to incorrect
     	answerButton.setOnClickListener(new OnClickListener()
     	{
     		@Override
     		public void onClick(View v)
     		{
-    			
     			if (answerTextView.getText().toString().equals(answer))
     			{
-    				//label.setText("correct");
     				label.setText("");
     				answerButton.setEnabled(false);
+    				backButton.setEnabled(false);
     				zeroButton.setEnabled(false);
-            		oneButton.setEnabled(false);
-            		backButton.setEnabled(false);
+	        		oneButton.setEnabled(false);
+					twoButton.setEnabled(false);
+					threeButton.setEnabled(false);
+					fourButton.setEnabled(false);
+					fiveButton.setEnabled(false);
+					sixButton.setEnabled(false);
+					sevenButton.setEnabled(false);
+					eightButton.setEnabled(false);
+					nineButton.setEnabled(false);
+					aButton.setEnabled(false);
+					bButton.setEnabled(false);
+					cButton.setEnabled(false);
+					dButton.setEnabled(false);
+					eButton.setEnabled(false);
+					fButton.setEnabled(false);
     				String dataS = trackPos + ",C";
     				try {
 						((RacerApplication)LapCounter.this.getApplication()).sendData(dataS);
@@ -129,11 +140,13 @@ public class LapCounter extends Activity
     		}
     	});
     	
+    	// Deletes a single character from the msg box
     	backButton.setOnClickListener(new OnClickListener()
     	{
     		@Override
     		public void onClick(View v)
     		{
+    			// 
     			String editAnswer = answerTextView.getText().toString();
     			if (editAnswer.length() > 0)
     				editAnswer = editAnswer.substring(0, editAnswer.length() - 1);
@@ -323,8 +336,12 @@ public class LapCounter extends Activity
     {
         public void run() 
         {
+        	// Stores read in data in dataR then processes the data
         	(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
         	dataList = ((RacerApplication)LapCounter.this.getApplication()).dataList;
+        	
+        	// Incoming question: enable all buttons based of base to convert too, clear label and answer box, 
+        	// update lap count and number to convert too, set answer variable
         	if (dataList.get(0).equals("Q"))
         	{
         		answerButton.setEnabled(true);
@@ -340,16 +357,8 @@ public class LapCounter extends Activity
 					e.printStackTrace();
 				}
 				
-				if (trackPos.equals("O"))
-				{
-					youCountTextView.setText(dataList.get(2));
-					oppCountTextView.setText(dataList.get(1));
-				}
-				else
-				{
-					youCountTextView.setText(dataList.get(1));
-					oppCountTextView.setText(dataList.get(2));
-				}
+				innerCountTextView.setText(dataList.get(1));
+				outerCountTextView.setText(dataList.get(2));
 				
 				base = dataList.get(3);
 				if (base.equals("B"))
@@ -436,6 +445,7 @@ public class LapCounter extends Activity
 				numberToConvertTextView.setText(dataList.get(4));
 				answer = dataList.get(5);	
         	}
+        	// Correct: disable all buttons, set label to display correct msg or incorrect msg
         	else if(dataList.get(0).equals("C"))
         	{
         		answerButton.setEnabled(false);
@@ -459,16 +469,15 @@ public class LapCounter extends Activity
 				
         		if (dataList.get(1).equals(trackPos))
         		{
-        			//Toast.makeText(LapCounter.this, "ROUND WON", Toast.LENGTH_LONG).show();
         			label.setText("CORRECT!");
         		}
         		else
         		{
-        			//Toast.makeText(LapCounter.this, "ROUND LOST", Toast.LENGTH_LONG).show();
         			String text = "Your opponent answered first. The correct answer is: " + "\n" + answer; 
         			label.setText(text);
         		}
         	}
+        	// Heart Beat
         	else if (dataList.get(0).equals("HB"))
         	{
         		dataS = (((RacerApplication)LapCounter.this.getApplication()).trackPos);
@@ -480,6 +489,7 @@ public class LapCounter extends Activity
 				}
         		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
         	}
+        	// Won: display correct win/loose dialog
         	else if (dataList.get(0).equals("W"))
         	{
         		if (trackPos.equals(dataList.get(1)))
@@ -488,11 +498,13 @@ public class LapCounter extends Activity
         			won(false);
         		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
         	}
+        	// Error Message; set label to error message
         	else if (dataList.get(0).equals("EM"))
         	{
         		label.setText(dataList.get(1));
         		(((RacerApplication)LapCounter.this.getApplication()).newData) = false;
         	}
+        	// Restart: restart application and set firstRestart to false
         	else if(dataList.get(0).equals("RESTART"))
         	{
         		dataS = (((RacerApplication)LapCounter.this.getApplication()).trackPos) + ",R,OK";
@@ -520,6 +532,7 @@ public class LapCounter extends Activity
         {
         	while(true)
             {
+        		// If new data is read in, parse the data
             	if ((((RacerApplication)LapCounter.this.getApplication()).newData) == true)
             	{
             		h.post(r);
@@ -531,28 +544,6 @@ public class LapCounter extends Activity
 			}
         }
     };
-    
-    @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_restart:
-                //newGame();
-            	Intent binaryRacer = new Intent(getApplicationContext(), BinaryRacer.class);
-            	startActivity(binaryRacer);
-            	finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
     
     void won(boolean won)
     {
@@ -579,7 +570,6 @@ public class LapCounter extends Activity
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-		            	
 					}
 				  });
  
@@ -604,9 +594,6 @@ public class LapCounter extends Activity
 
     		// show it
     		alertDialog.show();
-
-    		// After some action
-    		//alertDialog.dismiss();
     	}
     }
 }
