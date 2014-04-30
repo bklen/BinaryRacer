@@ -256,12 +256,12 @@ public class RacerApplication extends Application
 	*/
     public String getVersion()
     {
-        int v = 0;
+        String v = "0";
         try {
-            v = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            v = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (NameNotFoundException e) {
             // Huh? Really?
         }
-        return String.valueOf(v);
+        return v;
     }
 }
